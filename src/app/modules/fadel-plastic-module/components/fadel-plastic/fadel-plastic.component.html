@@ -1,0 +1,374 @@
+<h2>Fadel plastic </h2>
+
+<hr>
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+<div *ngIf="!inTrasmission" id="formAndSteps">
+    <mat-horizontal-stepper [linear]="isLinear" #stepper style="width: 100%;">
+
+
+
+
+
+
+
+
+
+
+
+
+        <mat-step [stepControl]="typeWorkFormGroup">
+            <ng-template matStepLabel>Requisito principale</ng-template>
+            <form [formGroup]="typeWorkFormGroup">
+                <h1>TIPOLOGIA DI LAVORO</h1>
+
+                <div>
+
+
+                    <mat-form-field appearance="fill">
+						<mat-label>TIPOLOGIA DI LAVORO</mat-label>
+						<mat-select formControlName ="typeWork" required="">
+						  <mat-option value="new">Nuovo</mat-option>
+						  <mat-option value="replay">Ristampa</mat-option>
+						</mat-select>
+					</mat-form-field>
+
+                </div>
+
+				<div *ngIf="typeWorkFormGroup.value.typeWork == 'replay'">
+					<mat-form-field appearance="fill">
+						<input type="number" matInput formControlName="orderPrewiusly" required placeholder="Codice ordine precedente">
+					</mat-form-field>
+				</div>
+
+
+                <hr>
+
+                <div fxLayout="row" fxLayoutAlign="end top">
+                    <button mat-button matStepperNext mat-raised-button color="primary">Avanti</button>
+                </div>
+            </form>
+        </mat-step>
+		
+
+
+
+
+		<mat-step [stepControl]="typeBagFormGroup">
+            <ng-template matStepLabel>Tipo di Busta</ng-template>
+            <form [formGroup]="typeBagFormGroup">
+                <h1>TIPO BUSTA</h1>
+
+				<div>
+					<label><h2> Materiale busta: </h2></label>
+					<mat-radio-group class="typeBag-radio-group" formControlName="bagHandles">
+						
+						<mat-radio-button required *ngFor="let typeBag of typeBags" [value]="typeBag.value">
+							{{ typeBag.description }}
+							<mat-icon 
+								matTooltip="{{ typeBag.info }}" 
+							 matSuffix class="secondary-text">info</mat-icon>
+
+						</mat-radio-button>
+					</mat-radio-group>
+					
+                </div>
+
+				<div>
+					<label> <h2> Tipo di manico: </h2></label>
+					<mat-radio-group class="typeBag-radio-group" formControlName="typeBags">
+						<mat-radio-button  required *ngFor="let bagHandle of bagHandles" [value]="bagHandle.value">
+							{{ bagHandle.description }}
+						</mat-radio-button>
+					</mat-radio-group>
+				</div>
+
+				
+            	<br>
+
+                <div fxLayout="row" fxLayoutAlign="end top">
+					<button  mat-button matStepperPrevious  >Indietro</button>
+                    <button  mat-button matStepperNext mat-raised-button color="primary">Avanti</button>
+                </div>
+			</form>
+		</mat-step>
+
+		<mat-step [stepControl]="characterBagFormGroup">
+			<ng-template matStepLabel>Caratteristiche prodotto</ng-template>
+			<form [formGroup]="characterBagFormGroup">
+				<h1>Ordine</h1>
+
+				<div>
+					<mat-form-field appearance="fill" >
+						<mat-label>Larghezza</mat-label>
+						<input matInput type="number" formControlName ="width"  required>
+					</mat-form-field>
+	
+				</div>
+					
+	
+				<div>
+					<mat-form-field appearance="fill">
+						<mat-label>Altezza</mat-label>
+						<input matInput type="number" formControlName ="height"  required>
+					</mat-form-field>
+	
+				</div>
+	
+				<div>
+					<mat-form-field appearance="fill">
+						<mat-label>Soffietti</mat-label>
+						<mat-select formControlName ="gussets" required="">
+							<mat-option *ngFor="let gusset of gussets" [value]="gusset.value">{{gusset.description}}</mat-option>
+						</mat-select>
+					</mat-form-field>
+	
+				</div>
+
+				<div>
+					<mat-form-field appearance="fill">
+						<mat-label>Tipo di stampa</mat-label>
+						<mat-select formControlName ="printType" required="">
+							<mat-option *ngFor="let printType of printTypes" [value]="printType.value">{{printType.description}}</mat-option>
+							
+						</mat-select>
+					</mat-form-field>
+	
+				</div>
+
+				<div>
+
+					<mat-form-field appearance="fill" >
+						<mat-label>Colore</mat-label>
+						<mat-select formControlName ="printTypeColor" required="">
+							<mat-option value="all">Unico</mat-option>
+							<mat-option  value="frontAndBack">Fronte/Retro</mat-option>
+							
+						</mat-select>
+					</mat-form-field>
+				</div>
+				<div class="oneColorTypeBag">
+					<mat-form-field appearance="fill" *ngIf="characterBagFormGroup.value.printTypeColor == 'all'" >
+						<mat-label>Colore plastica</mat-label>
+						<mat-chip-list formControlName ="color" selectable multiple  >
+							<mat-chip #c="matChip" *ngFor="let color of colors" [value]="color.value" (click)="toggleSelection(c)"
+							>{{color.description}}
+							</mat-chip>
+
+							  
+						</mat-chip-list>
+							
+					</mat-form-field>
+				</div>
+
+				<div >
+					<mat-form-field appearance="fill" *ngIf="characterBagFormGroup.value.printTypeColor == 'frontAndBack'" >
+						<mat-label>Fronte</mat-label>
+						<mat-chip-list formControlName ="frontColor" selectable multiple >
+							<mat-chip #c="matChip" *ngFor="let color of colors" [value]="color.value" (click)="toggleSelection(c)"
+							>{{color.description}}
+							</mat-chip>
+
+							  
+						</mat-chip-list>
+					</mat-form-field>
+
+					<mat-form-field appearance="fill" *ngIf="characterBagFormGroup.value.printTypeColor == 'frontAndBack'" >
+						<mat-label>Retro</mat-label>
+						<mat-chip-list formControlName ="backColor" selectable multiple>
+							<mat-chip #c="matChip" *ngFor="let color of colors" [value]="color.value" (click)="toggleSelection(c)"
+							>{{color.description}}
+							</mat-chip>
+
+							  
+						</mat-chip-list>
+					</mat-form-field>
+				</div>
+				
+	
+				<div>
+					<mat-form-field appearance="fill" >
+						
+						<mat-label>Quantità in kg</mat-label>
+						<mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="50" step="10" in="60" max="1000"></mat-slider>
+						<input type="number" matInput formControlName="quantity" required>
+					</mat-form-field>
+					
+					<mat-icon matTooltip="Quantità minima per 4 colori: 60kg; per 6 colori 200kg"  aria-label="Button that displays a tooltip when focused or hovered over" matSuffix class="secondary-text">info</mat-icon>
+					
+				</div>
+				<div>
+					<mat-form-field appearance="fill">
+						<mat-label>Spessore in Micron</mat-label>
+						<mat-select formControlName ="thicknessMys" required="">
+							<mat-option *ngFor="let thicknessMy of thicknessMys" [value]="thicknessMy.value">{{thicknessMy.description}}</mat-option>
+								
+						</mat-select>
+					</mat-form-field>
+				</div>
+
+				<div>
+					<img [src]="url" alt="">
+					<!--<input type="file" (change)="selectFile($event)">-->
+	
+					<input style="display: none" type="file" (change)="selectFile($event)" #hiddenfileinput>
+					<button mat-button mat-raised-button color="primary" (click)="hiddenfileinput.click()"  class="waves-effect waves-light btn"><i class="material-icons left"></i>Seleziona Pdf</button>
+						
+	 
+				</div>
+
+				<pre>{{ typeBagFormGroup.value | json }}</pre>
+				<pre>{{ characterBagFormGroup.value | json }}</pre>
+				Area busta:
+				<pre>{{ ( characterBagFormGroup.value.width + characterBagFormGroup.value.gussets ) * 2 * characterBagFormGroup.value.height }}</pre>
+				Peso busta:
+				<pre>{{ (characterBagFormGroup.value.thicknessMys * 0.96 * (( characterBagFormGroup.value.width + characterBagFormGroup.value.gussets ) * 2 * characterBagFormGroup.value.height))/10000 }} KG</pre>
+				Buste
+				<pre>{{ 1000 / ((characterBagFormGroup.value.thicknessMys * 0.96 * (( characterBagFormGroup.value.width + characterBagFormGroup.value.gussets ) * 2 * characterBagFormGroup.value.height))/10000) }} </pre>
+
+
+				<hr>
+		
+				<div fxLayout="row" fxLayoutAlign="end top">
+					<button mat-button matStepperPrevious  >Indietro</button>
+					<button mat-button matStepperNext mat-raised-button color="primary" >Avanti</button>
+				</div>
+			</form>		
+		</mat-step>
+			
+
+		<mat-step [stepControl]="anagraficFormGroup">
+			<ng-template matStepLabel>Richiesta dati</ng-template>
+				<form [formGroup]="anagraficFormGroup">
+					<h3>Dati richiedente</h3>
+                	<div>
+						<mat-form-field appearance="outline">
+							<mat-label>Nome</mat-label>
+							<input matInput formControlName="firstname" required>
+							<mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+							<mat-error>Il nome è obbligatorio!</mat-error>
+						</mat-form-field>
+						<mat-form-field appearance="outline" >
+							<mat-label>Cognome</mat-label>
+							<input matInput formControlName="lastname" required>
+							<mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+							<mat-error>Il cognome è obbligatorio!</mat-error>
+						</mat-form-field>
+					</div>
+					<div>
+
+							
+						<mat-form-field appearance="outline">
+							<mat-label>Nome Azienda</mat-label>
+							<input matInput formControlName="company" >
+							<mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+						</mat-form-field>
+					</div>
+
+					<h3>Contatti</h3>
+					<div>
+						<mat-form-field appearance="outline" >
+							<mat-label>Email</mat-label>
+							<input matInput formControlName="email">
+							<mat-icon matSuffix class="secondary-text">email</mat-icon>
+							<mat-error>L' Email è obbligatoria!</mat-error>
+						</mat-form-field>
+						<mat-form-field appearance="outline" >
+							<mat-label>Telefono o Cellulare</mat-label>
+							<input matInput formControlName="mobile" type="number" required>
+							<mat-icon matSuffix class="secondary-text">mobile_friendly</mat-icon>
+							<mat-error>Il numero  è obbligatorio!</mat-error>
+						</mat-form-field>
+					</div>
+					
+					<hr>
+		
+					<div fxLayout="row" fxLayoutAlign="end top">
+						<button mat-button matStepperPrevious mat-raised-button color="primary" >Indietro</button>
+						<button mat-button mat-raised-button color="primary" (click)="confirmation()">Visualizza preventivo</button>
+					</div>
+				</form>
+		</mat-step>
+	</mat-horizontal-stepper>
+</div>
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       
+
+
+
+
+
+
+
+
+<div *ngIf="inTrasmission" id="trasmission">
+    <div [ngSwitch]="trasmissionStatus">
+        <div *ngSwitchCase="0">
+            <br><br><br><br>
+            <mat-spinner style="margin: 0 auto;"></mat-spinner>
+            <h3>INVIO ORDINE ...</h3>
+			
+            <br>
+            <br>
+        </div>
+        <div *ngSwitchCase="1">
+            <h3>Ordine inviato con successo!</h3>
+            
+		</div>	
+        <div *ngSwitchDefault>
+            <h3 style="color: red;">Errore nell'invio della domanda!</h3>
+            <h4>Ci scusiamo per il disagio, clicca su tasto "Riprova" per provare a trasmettere nuovamente l'istanza, se
+                il problema
+                persiste contatta l'help desk del Comune tramite la chat della pagina Facebook.</h4>
+            <button mat-button (click)="inTrasmission = false">Torna alla domanda</button>
+            <button mat-button mat-raised-button color="accent" (click)="confirmation()">Riprova</button>
+            <br>
+            <button mat-button (click)="showTrasmissionError = true">errore</button>
+            <pre style="text-align: left;"
+                *ngIf="showTrasmissionError"><code>Error:{{ trasmissionError | json }}</code></pre>
+        </div>
+    </div>
+</div>
+
+
+<!--<pre>
+	{{principalRequirementFormGroup.value| json}}
+	{{anagraficFormGroup.value| json}}
+	{{residenceFormGroup.value| json}}
+	{{economicSituationFormGroup.value| json}}
+
+	{{banana |json}}
+</pre>-->

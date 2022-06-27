@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatChip } from '@angular/material/chips';
+
 @Component({
     selector: 'fadel-plastic',
     templateUrl: './fadel-plastic.component.html',
@@ -21,6 +22,7 @@ export class FadelPlasticComponent implements OnInit {
 	characterBagFormGroup: FormGroup ;
 	typeBagFormGroup: FormGroup ;
 	anagraficFormGroup: FormGroup;
+	quantityBagFormGroup: FormGroup ;
 	
 	
 	
@@ -242,6 +244,136 @@ export class FadelPlasticComponent implements OnInit {
 
 	]
 
+
+	colorsLogo: any[] = [
+		{
+			description: 'bianco',
+			value: 1
+		},
+		{
+			description: 'trasparente',
+			value: 2
+		},
+		{
+			description: 'panna',
+			value: 3
+		},
+		{
+			description: 'avorio',
+			value: 4
+		},
+		{
+			description: 'crema',
+			value: 5
+		},
+		{
+			description: 'giallo limone',
+			value: 6
+		},
+		{
+			description: 'giallo ocra',
+			value: 7
+		},
+		{
+			description: 'salmone',
+			value: 8
+		},
+		{
+			description: 'carota',
+			value: 9
+		},
+		{
+			description: 'arancio',
+			value: 10
+		},
+		{
+			description: 'rosa',
+			value: 11
+		},
+		{
+			description: 'fucsia',
+			value: 12
+		},
+		{
+			description: 'rosso',
+			value: 13
+		},
+		{
+			description: 'bordeaux',
+			value: 14
+		},
+		{
+			description: 'viola',
+			value: 15
+		},
+		{
+			description: 'vinaccio',
+			value: 16
+		},
+		{
+			description: 'marrone',
+			value: 17
+		},
+		{
+			description: 'testa di moro',
+			value: 18
+		},
+		{
+			description: 'celeste',
+			value: 19
+		},
+		{
+			description: 'azzurro',
+			value: 20
+		},
+		{
+			description: 'blu elettrico',
+			value: 21
+		},
+		{
+			description: 'blu',
+			value: 22
+		},
+		{
+			description: 'blu scuro',
+			value: 23
+		},
+		{
+			description: 'senape',
+			value: 24
+		},
+		{
+			description: 'verde lime',
+			value: 25
+		},
+		{
+			description: 'verde bandiera',
+			value: 26
+		},
+		{
+			description: 'verde scuro',
+			value: 27
+		},
+		{
+			description: 'oro',
+			value: 28
+		},
+		{
+			description: 'argento',
+			value: 29
+		},
+		{
+			description: 'rame',
+			value: 30
+		},
+		{
+			description: 'nero',
+			value: 31
+		},
+		
+
+	]
+
 printTypes: any[] = [
 		{
 			description: '1 colore',
@@ -255,52 +387,35 @@ printTypes: any[] = [
 			description: '3 colori',
 			value: 3
 		},
-		{
-			description: '4 colori',
-			value: 4
-		},
-
-		{
-			description: '5 colori',
-			value: 5
-		},
-
-		{
-			description: '6 colori',
-			value: 6
-		},
 	]
 
 	typeBags: any[] = [
 		{
 			description: 'HDPE',
 			value: 1,
-			info: "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,"
+			info: "Materiale plastico ad alta densità. Si presenta opaco e duro al tatto. La normativa prevede uno spessore minimo di 60 my"
 		},
 		{
 			description: 'LDPE',
 			value: 2,
-			info: "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,"
+			info: "Materiale plastico a bassa densità. Si presenta lucido e morbido al tatto. La normativa prevede uno spessore minimo di 60 my"
 		},
 		{
 			description: 'Bio',
 			value: 3,
-			info: "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,"
+			info: "Materiale Bio compostabile utilizzato per la produzione di shoppers con manico a 'canottiera' con spessori inferiori a quelli imposti dalla normativa europea per i materiali HDPE e LDPE"
 		},
-		{
-			description: 'Busta spedizioni',
-			value: 4,
-			info: "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,"
-		},
+		
 	]
 
 	bagHandles: any[] = [
 		{
-			description: 'Fagiolo',
-			value: 1
+			description: 'Asola',
+			value: 1,
+			
 		},
 		{
-			description: 'Fagiolo bucato',
+			description: 'Canottiera',
 			value: 2
 		},
 		{
@@ -312,7 +427,7 @@ printTypes: any[] = [
 			value: 4
 		},
 		{
-			description: 'Shopper',
+			description: 'Busta spedizione',
 			value: 5
 		},
 	]
@@ -342,6 +457,8 @@ printTypes: any[] = [
         this.typeWorkFormGroup = this._formBuilder.group({
             typeWork: ['', Validators.required],
 			orderPrewiusly: [],
+			nameAgency: [],
+			
 			
         });
 
@@ -351,16 +468,24 @@ printTypes: any[] = [
         });
 
 		this.characterBagFormGroup = this._formBuilder.group({
-            quantity: ['', Validators.required],
 			thicknessMys: [''],
-			color: ['',],
+			color: ['',Validators.required],
 			printType: ['', Validators.required],
 			width: ['', Validators.required],
 			height: ['', Validators.required],
 			gussets: ['', Validators.required],
-			printTypeColor: ['', Validators.required],
-			frontColor: ['', ],
-			backColor: ['',],
+			colorLogo: ['',Validators.required],
+			
+			
+		
+        });
+
+		this.quantityBagFormGroup = this._formBuilder.group({
+            quantity: ['',],
+			totalPrice: [''],
+			unitPrice: ['',],
+			
+			
 			
 		
         });

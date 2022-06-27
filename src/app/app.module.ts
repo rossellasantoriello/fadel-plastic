@@ -18,6 +18,7 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSliderModule} from '@angular/material/slider';
+import {MatListModule} from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,9 @@ import {MatSliderModule} from '@angular/material/slider';
 	MatRadioModule,
 	MatChipsModule,
 	MatTooltipModule,
-	MatSliderModule
+	MatSliderModule,
+	MatListModule,
+	
 	
 	
 

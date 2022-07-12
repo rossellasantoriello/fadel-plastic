@@ -412,7 +412,7 @@ printTypes: any[] = [
 		{
 			description: 'Asola',
 			value: 1,
-			
+			image: 'www.w3schools.com/css/trolltunga.jpg'
 		},
 		{
 			description: 'Canottiera',

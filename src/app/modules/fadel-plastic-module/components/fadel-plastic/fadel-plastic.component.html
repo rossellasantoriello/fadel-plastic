@@ -102,9 +102,11 @@
 					
 					<mat-radio-group class="typeBag-radio-group" formControlName="bagHandles">
 						<mat-radio-button required *ngFor="let bagHandle of bagHandles" [value]="bagHandle.value">
-							{{ bagHandle.description }}
+							{{ bagHandle.description}}
 						</mat-radio-button>
+						
 					</mat-radio-group>
+
 				</div>
 
 
